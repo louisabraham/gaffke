@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gaffke"
+version = "0.1.0"
+description = "The Gaffke confidence interval for the mean of a discrete bounded variable: exact, narrow and fast"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Louis Abraham", email = "abraham.cie@gmail.com" }]
+requires-python = ">=3.9"
+dependencies = ["numpy>=1.22", "scipy>=1.9"]
+keywords = ["confidence interval", "mean", "multinomial", "Dirichlet", "Gaffke", "Clopper-Pearson", "nonparametric"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
+]
+
+[project.optional-dependencies]
+test = ["pytest", "mpmath"]
+
+[project.urls]
+Homepage = "https://github.com/louisabraham/gaffke"
+Source = "https://github.com/louisabraham/gaffke"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/gaffke"]

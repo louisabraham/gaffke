@@ -1,0 +1,24 @@
+Package: gaffke
+Type: Package
+Title: The Gaffke Confidence Interval for the Mean of a Discrete Bounded Variable
+Version: 0.1.0
+Authors@R: person("Louis", "Abraham", email = "abraham.cie@gmail.com", role = c("aut", "cre"))
+Description: Computes the Gaffke confidence interval for the mean of a
+    variable that takes a finite set of known values, from the counts of
+    each value. The interval generalizes the Clopper-Pearson interval, and
+    its coverage is at least the nominal level for every sample size and
+    every distribution (Gaffke (2005), Mathematical Methods of Statistics 14(4);
+    Vlassis and Thomas (2026) <doi:10.48550/arXiv.2607.08415>). The
+    endpoints are quantiles of a weighted sum of Dirichlet variables,
+    computed by a Fourier inversion integral on a line through the saddle
+    point, with a small relative error also far in the tails; the package
+    also gives the distribution function, density and quantile function of
+    this law.
+License: MIT + file LICENSE
+Encoding: UTF-8
+URL: https://github.com/louisabraham/gaffke
+BugReports: https://github.com/louisabraham/gaffke/issues
+Imports: stats
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Config/roxygen2/version: 8.1.1
