@@ -2,9 +2,10 @@
 
 ## 0.1.2 (2026-11-22)
 
-- Fix: the distribution function failed (division by zero) when the point
-  was exactly the mean of the weighted Dirichlet sum. Same fix in the
-  Python, R and JavaScript code.
+- Fix: at a point exactly equal to the mean of the weighted Dirichlet sum,
+  the distribution function divided by zero and could return a wrong value
+  (for example 0 instead of 0.5) without an error. Same fix in the Python, R
+  and JavaScript code; the R and JavaScript reference values are regenerated.
 
 ## 0.1.1 (2026-11-22)
 
