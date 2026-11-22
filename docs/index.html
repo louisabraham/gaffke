@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaffke confidence interval</title>
+<meta name="description" content="Exact, narrow and fast confidence interval for the mean of a variable with a few known values (ratings, scores). Runs in your browser.">
+<style>
+  :root {
+    --bg: #fbfbfa; --fg: #1d1d1f; --muted: #5f6368; --line: #d9d9d6; --card: #ffffff;
+    --accent: #1f5fa8; --accent-fg: #ffffff; --err: #b3261e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #121212; --fg: #ececec; --muted: #a8a8a8; --line: #333333; --card: #1c1c1e;
+            --accent: #7fb0ec; --accent-fg: #0b1a2c; --err: #f2b8b5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.7rem; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 24px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 18px; margin: 0 0 18px; }
+  label { display: block; font-weight: 600; margin: 12px 0 4px; }
+  .hint { color: var(--muted); font-weight: 400; font-size: .9rem; }
+  input, textarea { width: 100%; padding: 8px 10px; font: inherit; color: var(--fg); background: var(--bg);
+                    border: 1px solid var(--line); border-radius: 6px; }
+  textarea { min-height: 64px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .95rem; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .row > div { flex: 1 1 200px; }
+  .tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+  .tabs button { background: transparent; color: var(--fg); border: 1px solid var(--line); border-radius: 6px;
+                 padding: 6px 12px; font: inherit; cursor: pointer; }
+  .tabs button[aria-selected="true"] { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .go { margin-top: 16px; background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 6px;
+        padding: 10px 18px; font: inherit; font-weight: 600; cursor: pointer; }
+  .result { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
+  .result small { display: block; color: var(--muted); font-size: .9rem; }
+  .err { color: var(--err); }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  td, th { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  a { color: var(--accent); }
+  .hidden { display: none; }
+  footer { color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Gaffke confidence interval</h1>
+  <p class="sub">For the mean of a variable that takes a few known values: ratings, scores, counts.
+    Exact (coverage at least 1&nbsp;&minus;&nbsp;&alpha; for every sample size), narrow and fast.
+    Runs in your browser; no data leaves this page.</p>
+
+  <div class="card">
+    <div class="tabs" role="tablist">
+      <button role="tab" id="tab-counts" aria-selected="true">Values and counts</button>
+      <button role="tab" id="tab-raw" aria-selected="false">Raw data</button>
+    </div>
+    <div id="pane-counts">
+      <div class="row">
+        <div><label for="values">Values <span class="hint">(all possible values)</span></label>
+          <input id="values" value="1, 2, 3, 4, 5"></div>
+        <div><label for="counts">Counts <span class="hint">(number of observations of each value)</span></label>
+          <input id="counts" value="2, 3, 8, 12, 5"></div>
+      </div>
+    </div>
+    <div id="pane-raw" class="hidden">
+      <label for="raw">Observations <span class="hint">(separated by commas, spaces or new lines)</span></label>
+      <textarea id="raw">4 5 3 4 4 2 5 3 4 1</textarea>
+      <label for="range">Possible values <span class="hint">(optional: add values that can occur but were not observed, such as the ends of a scale)</span></label>
+      <input id="range" value="1, 5">
+    </div>
+    <div class="row">
+      <div><label for="level">Confidence level</label><input id="level" value="0.95"></div>
+    </div>
+    <button class="go" id="go">Compute</button>
+  </div>
+
+  <div class="card" id="out" aria-live="polite"></div>
+
+  <div class="card">
+    <strong>What it is.</strong>
+    Each of <i>n</i> trials gives one of <i>k</i> known values <i>v</i><sub><i>i</i></sub> with unknown probabilities
+    <i>p</i><sub><i>i</i></sub>. The interval for the mean &mu; = &Sigma; <i>v</i><sub><i>i</i></sub><i>p</i><sub><i>i</i></sub> is
+    [<i>Q</i><sub>&alpha;/2</sub>(<i>v</i>&middot;<i>P</i><sub>&minus;</sub>), <i>Q</i><sub>1&minus;&alpha;/2</sub>(<i>v</i>&middot;<i>P</i><sub>+</sub>)],
+    where <i>P</i><sub>&minus;</sub> and <i>P</i><sub>+</sub> are Dirichlet with the counts as parameters and one more unit on the
+    smallest or the largest value. For two values it is the Clopper&ndash;Pearson interval.
+    Its coverage is at least 1&nbsp;&minus;&nbsp;&alpha; for every sample size and every distribution
+    (Gaffke 2005; proof by Vlassis and Thomas 2026). The values that you list define the range: the interval
+    assumes that no other value can occur.
+  </div>
+
+  <footer>
+    Implementation note, Python package (<code>pip install gaffke</code>) and R package (<code>install.packages("gaffke")</code>):
+    <a href="https://github.com/louisabraham/gaffke">github.com/louisabraham/gaffke</a>.
+    This page uses <a href="gaffke.js">gaffke.js</a>, a JavaScript port that agrees with the Python package to 10<sup>&minus;15</sup>.
+  </footer>
+</main>
+<script src="gaffke.js"></script>
+<script>
+  const $ = (id) => document.getElementById(id);
+  const nums = (s) => s.split(/[\s,;]+/).filter((t) => t !== "").map(Number);
+  let mode = "counts";
+  function setMode(m) {
+    mode = m;
+    $("tab-counts").setAttribute("aria-selected", m === "counts");
+    $("tab-raw").setAttribute("aria-selected", m === "raw");
+    $("pane-counts").classList.toggle("hidden", m !== "counts");
+    $("pane-raw").classList.toggle("hidden", m !== "raw");
+  }
+  $("tab-counts").onclick = () => setMode("counts");
+  $("tab-raw").onclick = () => setMode("raw");
+
+  function readInput() {
+    if (mode === "counts") {
+      const values = nums($("values").value), counts = nums($("counts").value);
+      if (values.length !== counts.length) throw new Error("Give one count for each value.");
+      return { values, counts };
+    }
+    const obs = nums($("raw").value), extra = nums($("range").value);
+    if (obs.length === 0) throw new Error("Enter at least one observation.");
+    const m = new Map();
+    for (const x of extra) m.set(x, 0);
+    for (const x of obs) m.set(x, (m.get(x) || 0) + 1);
+    const values = Array.from(m.keys()).sort((a, b) => a - b);
+    return { values, counts: values.map((v) => m.get(v)) };
+  }
+  const fmt = (x) => Number(x.toPrecision(6)).toString();
+
+  function run() {
+    const out = $("out");
+    try {
+      const { values, counts } = readInput();
+      if (values.some((v) => !isFinite(v)) || counts.some((c) => !isFinite(c))) throw new Error("Only numbers are allowed.");
+      if (counts.some((c) => c < 0)) throw new Error("Counts must be nonnegative.");
+      if (new Set(values).size !== values.length) throw new Error("Each value must appear once.");
+      const level = Number($("level").value);
+      if (!(level > 0 && level < 1)) throw new Error("The confidence level must be between 0 and 1, for example 0.95.");
+      const n = counts.reduce((a, b) => a + b, 0);
+      const t0 = performance.now();
+      const ci = Gaffke.gaffkeCI(counts, values, 1 - level);
+      const ms = performance.now() - t0;
+      const mean = n > 0 ? counts.reduce((s, c, i) => s + c * values[i], 0) / n : NaN;
+      let rows = "";
+      values.forEach((v, i) => { rows += `<tr><td>${fmt(v)}</td><td>${counts[i]}</td></tr>`; });
+      out.innerHTML =
+        `<div class="result">${fmt(level * 100)}% interval: [${fmt(ci.lower)}, ${fmt(ci.upper)}]` +
+        `<small>sample mean ${n > 0 ? fmt(mean) : "(no data)"}, n = ${n}, computed in ${ms.toFixed(1)} ms</small></div>` +
+        `<details style="margin-top:10px"><summary>Data used</summary><table><tr><th>Value</th><th>Count</th></tr>${rows}</table></details>`;
+    } catch (e) {
+      out.innerHTML = `<p class="err">${e.message}</p>`;
+    }
+  }
+  $("go").onclick = run;
+  document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.tagName === "INPUT") run(); });
+  run();
+</script>
+</body>
+</html>
