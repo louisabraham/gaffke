@@ -1,7 +1,7 @@
 Package: gaffke
 Type: Package
 Title: The Gaffke Confidence Interval for the Mean of a Discrete Bounded Variable
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Louis", "Abraham", email = "abraham.cie@gmail.com", role = c("aut", "cre"))
 Description: Computes the Gaffke confidence interval for the mean of a
     variable that takes a finite set of known values, from the counts of

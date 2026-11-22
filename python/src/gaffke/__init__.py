@@ -17,7 +17,7 @@ from gaffke.dirichlet_sum import (
     dirichlet_sum_sf,
 )
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "gaffke_ci",

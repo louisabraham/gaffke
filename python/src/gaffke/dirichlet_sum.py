@@ -208,7 +208,10 @@ def _tail_pdf(a, w, y, need_pdf=True, s0=None):
     c = s if abs(s) >= c_min else math.copysign(c_min, bound)
     p = 1.0 - c * ls  # > 0 on the strip
     lp = ls / p
-    k_c = -float(a @ np.log(p))  # K(c) = log M(c)
+    # K(c) = log M(c). log1p(-c ls), not log(p): p = 1 - c ls is rounded to
+    # about 1e-16 absolute, and a (up to 1e8 or more) would multiply that
+    # error into a relative error of 1e-9 on the tail.
+    k_c = -float(a @ np.log1p(-c * ls))
     t_max = _cut_point(a, lp)
     edges = _edges(t_max, min(abs(c), 1.0 / float(np.max(np.abs(lp)))))
     t, wt, h = _nodes(edges)

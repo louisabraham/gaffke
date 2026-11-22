@@ -106,7 +106,7 @@
   cc <- if (abs(s) >= c_min) s else sign(bound) * c_min
   p <- 1 - cc * ls
   lp <- ls / p
-  k_c <- -sum(a * log(p))
+  k_c <- -sum(a * log1p(-cc * ls))  # not log(p): see the Python module
   t_max <- .cut_point(a, lp)
   edges <- .edges(t_max, min(abs(cc), 1 / max(abs(lp))))
   nd <- .nodes(edges)

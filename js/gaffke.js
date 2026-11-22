@@ -243,7 +243,8 @@
     const c = Math.abs(s) >= cMin ? s : Math.sign(bound) * cMin;
     const p = ls.map((v) => 1 - c * v);
     const lp = ls.map((v, i) => v / p[i]);
-    let kc = 0; for (let i = 0; i < k; i++) kc -= a[i] * Math.log(p[i]);
+    // log1p(-c ls), not log(p): see the Python module (relative accuracy for large a)
+    let kc = 0; for (let i = 0; i < k; i++) kc -= a[i] * Math.log1p(-c * ls[i]);
     const tMax = cutPoint(a, lp);
     const edges = panelEdges(tMax, Math.min(Math.abs(c), 1 / Math.max(...lp.map(Math.abs))));
     let nd = nodes(edges);
