@@ -22,3 +22,7 @@ let bw = 0;
 let ba = 0;
 for (const [q, a, b, up, ref] of beta) { const got = G._betaQuantile(q, a, b, up); if (!isFinite(got)) console.log('beta NOT FINITE', q, a, b); bw = Math.max(bw, Math.abs(got - ref) / Math.max(Math.abs(ref), 1e-300)); ba = Math.max(ba, Math.abs(got - ref)); }
 console.log(JSON.stringify({ beta_cases: beta.length, beta_worst_relative_error: bw, beta_worst_absolute_error: ba }));
+// the copy served by GitHub Pages must be the same file
+const same = fs.readFileSync(path.join(__dirname, "../gaffke.js"), "utf8") === fs.readFileSync(path.join(__dirname, "../../docs/gaffke.js"), "utf8");
+console.log(JSON.stringify({ docs_copy_identical: same }));
+if (!same) process.exit(1);

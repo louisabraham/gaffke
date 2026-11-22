@@ -40,9 +40,32 @@ gaffke_ci(c(3, 5, 2), c(1, 2, 3), alpha = 0.05)
 # 1.4276 2.4186 
 ```
 
-Both packages also give the law of `w' P` with `P ~ Dirichlet(a)`:
+## JavaScript
+
+[`js/gaffke.js`](js/gaffke.js) is a single file with no dependencies, for the
+browser and for Node. It is a line-by-line port of the Python package and
+agrees with it to 1e-15 of the range of the values.
+
+```html
+<script src="https://louisabraham.github.io/gaffke/gaffke.js"></script>
+<script>
+  Gaffke.gaffkeCI([3, 5, 2], [1, 2, 3], 0.05);
+  // {lower: 1.4276..., upper: 2.4186...}
+</script>
+```
+
+```js
+// Node
+const Gaffke = require("./js/gaffke.js");
+Gaffke.gaffkeCI([3, 5, 2], [1, 2, 3], 0.05);
+```
+
+The web version at https://louisabraham.github.io/gaffke/ uses this file.
+
+All three implementations also give the law of `w' P` with `P ~ Dirichlet(a)`:
 `dirichlet_sum_cdf`, `dirichlet_sum_sf`, `dirichlet_sum_pdf`, and
-`dirichlet_sum_ppf` (Python) or `dirichlet_sum_quantile` (R).
+`dirichlet_sum_ppf` (Python), `dirichlet_sum_quantile` (R), or
+`dirichletSumCdf`, `dirichletSumSf` and `dirichletSumQuantile` (JavaScript).
 
 ## Contents
 
@@ -51,7 +74,8 @@ Both packages also give the law of `w' P` with `P ~ Dirichlet(a)`:
 | `python/` | Python package and its tests (`pytest python/tests`) |
 | `R/gaffke/` | R package and its tests |
 | `paper/` | Implementation note: method, cost, accuracy, comparison |
-| `docs/` | Web page (GitHub Pages) and `gaffke.js`, a JavaScript port (`node docs/test/compare.js` checks it against Python) |
+| `js/` | JavaScript port `gaffke.js` and its test against Python (`node js/test/compare.js`) |
+| `docs/` | Web page (GitHub Pages), with a copy of `js/gaffke.js` |
 | `experiments/` | Coverage comparison with published intervals (`python experiments/coverage.py`) |
 
 ## Reference
