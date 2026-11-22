@@ -99,7 +99,9 @@ def _saddle(a, ls, z, bound, s0=None):
     accuracy is not useful, since any c in the strip gives the exact
     integral.
     """
-    if z > 0:
+    # the side of the root is the side of the branch point (bound < 0 for
+    # the lower tail), also when z = 0 (y at the mean of Y)
+    if bound < 0:
         b_lo, b_hi = bound, 0.0
     else:
         b_lo, b_hi = 0.0, bound

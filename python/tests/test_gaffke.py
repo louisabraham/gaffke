@@ -483,3 +483,12 @@ def test_coverage_exact_enumeration(v1, n, alpha):
     lo, hi = _worst_one_sided_coverage(n, v, alpha)
     assert lo >= 1 - alpha / 2 - 1e-9
     assert hi >= 1 - alpha / 2 - 1e-9
+
+
+def test_cdf_at_the_mean():
+    # regression: y exactly at the mean of Y (z = 0) chose the wrong side
+    # for the saddle point search
+    from scipy.stats import beta
+    assert dirichlet_sum_cdf([3.0, 3.0], [0.0, 1.0], 0.5) == pytest.approx(0.5, abs=1e-14)
+    assert dirichlet_sum_cdf([2.0, 4.0], [0.0, 1.0], 4 / 6) == pytest.approx(beta.cdf(4 / 6, 4, 2), rel=1e-12)
+    assert dirichlet_sum_cdf([2.0, 2.0, 2.0], [0.0, 0.5, 1.0], 0.5) == pytest.approx(0.5, abs=1e-14)

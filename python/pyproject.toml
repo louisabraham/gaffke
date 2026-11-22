@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "gaffke"
-version = "0.1.1"
+version = "0.1.2"
 description = "The Gaffke confidence interval for the mean of a discrete bounded variable: exact, narrow and fast"
 readme = "README.md"
 license = "MIT"

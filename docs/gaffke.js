@@ -164,7 +164,8 @@
 
   function saddle(a, ls, z, bound, s0) {
     let bLo, bHi;
-    if (z > 0) { bLo = bound; bHi = 0; } else { bLo = 0; bHi = bound; }
+    // side of the branch point (bound < 0: lower tail), also when z = 0
+    if (bound < 0) { bLo = bound; bHi = 0; } else { bLo = 0; bHi = bound; }
     let s = s0 === undefined || s0 === null ? -z : s0;
     if (!(bLo < s && s < bHi)) s = 0.5 * bound;
     let gPrev = Infinity;

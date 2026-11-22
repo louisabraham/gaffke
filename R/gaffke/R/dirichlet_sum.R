@@ -37,7 +37,8 @@
 }
 
 .saddle <- function(a, ls, z, bound, s0 = NULL) {
-  if (z > 0) { b_lo <- bound; b_hi <- 0 } else { b_lo <- 0; b_hi <- bound }
+  # side of the branch point (bound < 0: lower tail), also when z = 0
+  if (bound < 0) { b_lo <- bound; b_hi <- 0 } else { b_lo <- 0; b_hi <- bound }
   s <- if (is.null(s0)) -z else s0
   if (!(b_lo < s && s < b_hi)) s <- 0.5 * bound
   g_prev <- Inf
