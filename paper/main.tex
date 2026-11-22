@@ -33,7 +33,7 @@ This note makes three contributions.
 \begin{itemize}[nosep,leftmargin=1.5em]
   \item \emph{A fast and accurate algorithm for the endpoints.} A Fourier inversion integral on a line through the saddle point gives tail probabilities with a small relative error; a Gauss--Legendre rule on geometric panels converges at the same rate wherever the singularities are; a Newton iteration in the log-distance to the end of the tail needs $2.6$ evaluations per endpoint on average. The cost is $O(kN)$ operations for $k$ values and $N$ quadrature nodes, and $N$ does not grow with the sample size: an interval takes less than a millisecond for any $n$.
   \item \emph{An experimental comparison with the published intervals.} For $n \le 30$, with the coverage computed by enumeration of all outcomes, the Gaffke interval is the shortest of the intervals that keep the level: $17$ to $20\%$ shorter than the betting interval of Waudby-Smith and Ramdas, and $19$ to $37\%$ shorter than Anderson's. The shorter intervals (Wald, Student, profile likelihood, Bayesian) cover the mean less than $50\%$ of the time for some distributions.
-  \item \emph{Tested Python and R packages.} The endpoints agree with exact references (a B-spline formula in rational arithmetic, high-precision integrals) to $10^{-12}$ of the range of the values, with tail probabilities of relative error below $10^{-10}$ down to $\alpha = 10^{-12}$.
+  \item \emph{Tested Python and R packages, and a web page.} The endpoints agree with exact references (a B-spline formula in rational arithmetic, high-precision integrals) to $10^{-12}$ of the range of the values, with tail probabilities of relative error below $10^{-10}$ down to $\alpha = 10^{-12}$.
 \end{itemize}
 So the interval is exact, narrow and fast, and we recommend it.
 \end{abstract}
@@ -56,7 +56,7 @@ Vlassis and Thomas \cite{vlassis2026} recently proved the conjecture, so the int
 \begin{enumerate}[nosep]
   \item An algorithm that computes the endpoints to $10^{-12}$ of the range of the values in $O(kN)$ operations, with a number $N$ of quadrature nodes that does not grow with $n$ (Section~\ref{sec:fast}). Its key points are the saddle-point line, which gives a small \emph{relative} error on the tail probabilities, and geometric panels, on which the Gauss--Legendre rule converges at a rate that does not depend on the data.
   \item An experimental comparison of the coverage and width of the Gaffke interval with eight published intervals, for $n \le 30$ (Section~\ref{sec:narrow}).
-  \item Python and R packages, both named \texttt{gaffke}, tested against exact references and in $40{,}000$ random problems (Section~\ref{sec:tests}).
+  \item Python and R packages, both named \texttt{gaffke}, tested against exact references and in $40{,}000$ random problems (Section~\ref{sec:tests}), and a web page that computes the interval in the browser.
 \end{enumerate}
 Section~\ref{sec:interval} defines the interval, and Section~\ref{sec:exact} recalls why its coverage is guaranteed.
 
@@ -284,6 +284,7 @@ In all tests, including $40{,}000$ random problems with up to $20$ values and $n
 \begin{itemize}[nosep]
   \item Python: \texttt{pip install gaffke}, \url{https://pypi.org/project/gaffke/}
   \item R: \texttt{install.packages("gaffke")}, \url{https://CRAN.R-project.org/package=gaffke}
+  \item Web: \url{https://louisabraham.github.io/gaffke/}, which computes the interval in the browser with a JavaScript port (\texttt{gaffke.js}) that agrees with the Python package to $10^{-15}$ of the range of the values
 \end{itemize}
 Both give \texttt{gaffke\_ci(counts, values, alpha)} and the law of $w^\top P$ (distribution function, density, quantile).
 The R package is a line-by-line port of the Python one and agrees with it to $10^{-10}$ of the range of the values.

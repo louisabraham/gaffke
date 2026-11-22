@@ -14,6 +14,8 @@ mean of such data, the Gaffke interval is
 - **fast**: this package computes it in less than a millisecond for any
   sample size, with endpoints accurate to 1e-12 of the range of the values.
 
+**Try it in your browser:** https://louisabraham.github.io/gaffke/
+
 ## Python
 
 ```
@@ -49,6 +51,7 @@ Both packages also give the law of `w' P` with `P ~ Dirichlet(a)`:
 | `python/` | Python package and its tests (`pytest python/tests`) |
 | `R/gaffke/` | R package and its tests |
 | `paper/` | Implementation note: method, cost, accuracy, comparison |
+| `docs/` | Web page (GitHub Pages) and `gaffke.js`, a JavaScript port (`node docs/test/compare.js` checks it against Python) |
 | `experiments/` | Coverage comparison with published intervals (`python experiments/coverage.py`) |
 
 ## Reference
