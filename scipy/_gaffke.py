@@ -148,7 +148,8 @@ def gaffke_test(x, popmean, *, bounds=(0, 1), alternative="two-sided"):
            "Gaffke's confidence interval for the mean of bounded data is
            inadmissible but asymptotically efficient", arXiv:2607.18661, 2026.
     .. [5] L. Abraham, "Exact, narrow and fast: Use the Gaffke confidence
-           interval for the mean of a discrete bounded variable", 2026.
+           interval for the mean of a discrete bounded variable",
+           arXiv:2611.29512, 2026.
 
     Examples
     --------

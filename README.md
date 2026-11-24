@@ -2,6 +2,8 @@
 
 **Exact, narrow and fast: the Gaffke confidence interval for the mean of a discrete bounded variable.**
 
+[![arXiv](https://img.shields.io/badge/arXiv-2611.29512-b31b1b.svg)](https://doi.org/10.48550/arXiv.2611.29512)
+
 Data such as survey ratings or test scores take a few known values. For the
 mean of such data, the Gaffke interval is
 
@@ -81,8 +83,8 @@ All three implementations also give the law of `w' P` with `P ~ Dirichlet(a)`:
 ## Reference
 
 L. Abraham. *Exact, narrow and fast: Use the Gaffke confidence interval for
-the mean of a discrete bounded variable.* Implementation note, 2026
-(`paper/main.pdf`).
+the mean of a discrete bounded variable.* arXiv:2611.29512, 2026.
+<https://doi.org/10.48550/arXiv.2611.29512>
 
 ## License
 
